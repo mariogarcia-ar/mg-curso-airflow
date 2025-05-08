@@ -27,7 +27,7 @@ show_menu() {
   echo "3. Ver logs del worker"
   echo "4. Ver logs del scheduler"
   echo "5. Reiniciar el scheduler"
-  echo "6. Reiniciar el webserver"
+  echo "6. Reiniciar el apiserver"
   echo "7. Ejecutar un DAG manualmente"
   echo "8. Salir"
   echo "============================================================"
@@ -39,11 +39,11 @@ read_choice() {
   case $opcion in
     1)
       echo "Listando DAGs..."
-      $COMPOSE exec airflow-webserver airflow dags list
+      $COMPOSE exec airflow-apiserver airflow dags list
       ;;
     2)
       echo "Mostrando errores de importación de DAGs..."
-      $COMPOSE exec airflow-webserver airflow dags list-import-errors
+      $COMPOSE exec airflow-apiserver airflow dags list-import-errors
       ;;
     3)
       echo "Mostrando los últimos logs del worker..."
@@ -58,12 +58,12 @@ read_choice() {
       $COMPOSE restart airflow-scheduler
       ;;
     6)
-      echo "Reiniciando el webserver..."
-      $COMPOSE restart airflow-webserver
+      echo "Reiniciando el apiserver..."
+      $COMPOSE restart airflow-apiserver
       ;;
     7)
       read -p "Ingresá el ID del DAG a ejecutar: " dag_id
-      $COMPOSE exec airflow-webserver airflow dags trigger "$dag_id"
+      $COMPOSE exec airflow-apiserver airflow dags trigger "$dag_id"
       ;;
     8)
       echo "Saliendo del script."
